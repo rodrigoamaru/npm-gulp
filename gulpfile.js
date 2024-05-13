@@ -84,7 +84,8 @@ function watch() {
   gulp.watch ('css/scss/*.scss', compilaSass);
   gulp.watch ('js/main/*.js', gulpjs); 
   gulp.watch('js/plugins/*.js', pluginjs);
-  gulp.watch('*.html').on('change', browserSync.reload); 
+  gulp.watch('*.pug', compilaPug); 
+  gulp.watch('*.html').on('change', browserSync.reload);
   //gulp.watch(['*.html', '*.php']).on('change', browserSync.reload);  teste de arrail. para reload de varios arquivos
 };
 
@@ -106,6 +107,7 @@ function compilaPug() {
     .pipe(browserSync.stream());
 };
 
+
 // Tarefa para a função do Pug
 exports.compilaPug = compilaPug; 
 
@@ -113,4 +115,4 @@ exports.compilaPug = compilaPug;
 // Tarefa padrão do Gulp, que inicia o watch e o browser-sync
 //gulp.task('default',gulp.parallel(watch, browser, compilaSass, gulpjs, pluginjs), ); 
 
-exports.default = gulp.parallel(watch, browser, compilaSass, gulpjs, pluginjs, compilaPug); 
+exports.default = gulp.parallel(watch, browser, compilaSass, gulpjs, pluginjs, compilaPug, ); 
