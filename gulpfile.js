@@ -6,7 +6,8 @@ const browserSync = require('browser-sync').create();
 const autoprefixer = require ('gulp-autoprefixer'); 
 const concat = require ('gulp-concat'); 
 const babel = require ('gulp-babel');  
-const uglify = require('gulp-uglify'); 
+const uglify = require('gulp-uglify');  
+const pug = require('gulp-pug');  
 
 // Função para compilar o Saas e adicionar o prefixos
 function compilaSass() { 
@@ -91,10 +92,25 @@ function watch() {
 //gulp.task('watch', watch);   
 exports.watch = watch;
 
-// Tarefa padrão do Gulp, que inicia o watch e o browser-sync
-gulp.task(
-  'default',
-  gulp.parallel(watch, browser, compilaSass, gulpjs, pluginjs),  
-);
+// Função para compilar o Pug
+function compilaPug() {  
+  return gulp
+    .src('./*.pug')
+      .pipe(
+        pug({
+          // Your options in here.
+          pretty: true
+        })
+      )
+    .pipe(gulp.dest('./'))
+    .pipe(browserSync.stream());
+};
 
-exports.default = gulp.parallel(watch, browser, compilaSass, gulpjs, pluginjs);
+// Tarefa para a função do Pug
+exports.compilaPug = compilaPug; 
+
+
+// Tarefa padrão do Gulp, que inicia o watch e o browser-sync
+//gulp.task('default',gulp.parallel(watch, browser, compilaSass, gulpjs, pluginjs), ); 
+
+exports.default = gulp.parallel(watch, browser, compilaSass, gulpjs, pluginjs, compilaPug); 
